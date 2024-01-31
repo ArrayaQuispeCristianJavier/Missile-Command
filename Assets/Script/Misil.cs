@@ -7,6 +7,8 @@ public class Misil : MonoBehaviour
     [SerializeField] float misilSpeed = 30f;
     private Rigidbody2D misilRb;
     private float destroyDelay = 7f;
+    GameObject gameManagerObj;
+    GameManager gameManager;
 
     private void Awake()
     {
@@ -16,10 +18,26 @@ public class Misil : MonoBehaviour
     {
          misilRb.velocity = Vector2.up * misilSpeed;
     }
+    private void Start()
+    {
+        gameManagerObj = GameObject.Find("Game Manager");
+        if (gameManagerObj == null)
+        {
+            Debug.Log("Objeto no encontrado");
+        }
+        else
+        {
+            gameManager = gameManagerObj.GetComponent<GameManager>();
+            gameManager.enemyEliminated--;
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Destroy(gameObject);
-        gameObject.SetActive(false);
+        if (gameManager != null)
+        {
+            gameManager.enemyEliminated--;
+        }
+        Destroy(gameObject);
     }
     public void LaunchProjectile(Vector2 direction)
     {
