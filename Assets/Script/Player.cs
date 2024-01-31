@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    //[SerializeField] GameObject misilPrefab;
     private float misilOffset = 0.50f;
    
     void FixedUpdate()
