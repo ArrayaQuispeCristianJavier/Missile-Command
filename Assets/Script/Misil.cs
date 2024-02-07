@@ -1,47 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Misil : MonoBehaviour
 {
-    [SerializeField] float misilSpeed = 30f;
-    private Rigidbody2D misilRb;
-    private float destroyDelay = 7f;
-    GameObject gameManagerObj;
-    GameManager gameManager;
+    [SerializeField] float speedMovement;
+    [SerializeField] float timeOfLife;
+    private Action<Misil> desactivateAction;
+    private bool isAlive = true;
+    private Rigidbody2D rb;
 
-    private void Awake()
-    {
-        misilRb = GetComponent<Rigidbody2D>();
+
+    private void Awake() {
+        rb = GetComponent<Rigidbody2D>();
     }
-    private void OnEnable()
+    private void OnEnable() 
     {
-         misilRb.velocity = Vector2.up * misilSpeed;
+        StartCoroutine(DesactivateTime());
+        rb.velocity = transform.up * speedMovement;
     }
-    private void Start()
+    private void Update() 
     {
-        gameManagerObj = GameObject.Find("Game Manager");
-        if (gameManagerObj == null)
+        if (isAlive)
         {
-            Debug.Log("Objeto no encontrado");
-        }
-        else
-        {
-            gameManager = gameManagerObj.GetComponent<GameManager>();
-            gameManager.enemyEliminated--;
+         transform.Translate(Vector2.up * speedMovement * Time.deltaTime);
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (gameManager != null)
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.CompareTag("Enemy"))
         {
-            gameManager.enemyEliminated--;
+           DestroyMisil();
         }
-        Destroy(gameObject);
     }
-    public void LaunchProjectile(Vector2 direction)
+    private void OnBecameInvisible() {
+        DestroyMisil();
+    }
+    private void DestroyMisil(){
+        isAlive = false;
+        if (desactivateAction != null)
+        {
+            desactivateAction(this);
+        }
+        ReturnToPool();
+    }
+    public void DesactivateActionMisil(Action<Misil> desactivateActionParameter)
     {
-        misilRb.velocity = direction * misilSpeed;
-        Destroy(gameObject, destroyDelay);
+        desactivateAction = desactivateActionParameter;
+    }
+    private IEnumerator DesactivateTime(){
+        yield return new WaitForSeconds(timeOfLife);
+        if (isAlive)
+        {
+            DestroyMisil();
+        }
+    }
+    private void ReturnToPool(){
+        gameObject.SetActive(false);
     }
 }
