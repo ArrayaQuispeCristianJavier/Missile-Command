@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6227151163116391950}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5114719, y: 0.096195, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.305, y: 0.33, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -161,4 +161,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f5192f8053f6949a5c855dd9c83b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  misilSpeed: 45
+  speedMovement: 50
+  timeOfLife: 10
