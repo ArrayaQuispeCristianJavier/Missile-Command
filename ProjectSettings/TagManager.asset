@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - City
+  - Enemy
+  - Enemies
+  - House
   layers:
   - Default
   - TransparentFX
