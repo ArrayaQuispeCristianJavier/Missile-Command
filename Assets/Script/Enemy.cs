@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
         desactivateAction = desactivateActionParameter;
     }
      IEnumerator DesactivateTime(){
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(30f);
         desactivateAction(this);
     }
     public void ChangeColor(Color newColor){

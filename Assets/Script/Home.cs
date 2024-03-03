@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class Home : MonoBehaviour
 {
-    public GameObject[] arrayHome;
-
-    private void OnCollisionEnter2D(Collision2D collision)
+   public GameObject[] arrayHome;
+   
+   private void OnCollisionEnter2D(Collision2D other) {
+    if (other.gameObject.CompareTag("Enemies"))
     {
-        if (collision.gameObject.CompareTag("City"))
+        int randomIndex = Random.Range(0, arrayHome.Length);
+        if (arrayHome[randomIndex] != null)
         {
-            for(int i = 0; i < arrayHome.Length; i++)
-            {
-                if (arrayHome[i] != null)
-                {
-                    Destroy(arrayHome[i]);
-                }
-            }
+            Destroy(arrayHome[randomIndex]);
         }
     }
+   }
 }
